@@ -17,11 +17,16 @@ function getById(id) {
 }
 
 async function insert(hobbit) {
-  return db("hobbits").insert(hobbit)
+  const [id] = await db("hobbits")
+    .insert(hobbit)
+  return db("hobbits")
+    .where({id})
+    .first()  
 }
 
 async function update(id, changes) {
-  return null
+  return db("hobbits").update(changes)
+    .where({id})
 }
 
 function remove(id) {

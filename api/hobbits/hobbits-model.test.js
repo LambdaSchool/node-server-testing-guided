@@ -34,5 +34,24 @@ describe("Hobbits model", ()=>{
             all = await db("hobbits")
             expect(all).toHaveLength(2)
         })
+        it("values of hobbits from db",async ()=>{
+            const hobbit = await hobbits.insert(frodo)
+            expect(hobbit).toMatchObject({id:1,...frodo})
+        })
+    describe("update function",()=>{
+        it("updates the hobbit",async ()=>{
+            const [id] = await db("hobbits").insert(frodo)
+            await hobbits.update(id, {name:"FRODO"})
+            const updated = await db("hobbits").where({id}).first()
+            expect(updated.name).toBe("FRODO")
+            
+        })
+        it("check the updated hobbit", async ()=>{
+            const [id] = await db("hobbits").insert(frodo)
+            await hobbits.update(id, {name:"FRODO"})
+            const updated = await db("hobbits").where({id}).first()
+            expect(updated).toMatchObject({id:id,name:"FRODO"})
+        })
+    })
     })
 })
